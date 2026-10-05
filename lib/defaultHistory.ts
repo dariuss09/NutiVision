@@ -1,0 +1,410 @@
+import { NutritionAnalysisResult, UserGoals, NotificationSettings } from '@/types/nutrition';
+
+export const INITIAL_USER_GOALS: UserGoals = {
+  calorieTarget: 2150,
+  proteinTargetG: 145,
+  carbTargetG: 210,
+  fatTargetG: 65,
+  waterTargetMl: 2600,
+  currentWaterMl: 1500,
+  weightKg: 72,
+  heightCm: 175,
+  age: 28,
+  gender: 'female',
+  goalType: 'maintenance',
+  activityLevel: 'moderate',
+};
+
+export const INITIAL_NOTIFICATION_SETTINGS: NotificationSettings = {
+  enabled: true,
+  browserPermission: 'default',
+  breakfastTime: '08:30',
+  breakfastEnabled: true,
+  lunchTime: '12:45',
+  lunchEnabled: true,
+  dinnerTime: '19:00',
+  dinnerEnabled: true,
+  dailyReviewTime: '21:30',
+  dailyReviewEnabled: true,
+  hydrationIntervalHours: 2,
+  hydrationEnabled: true,
+};
+
+// Generates past days with realistic timestamps
+export function getInitialMealHistory(): NutritionAnalysisResult[] {
+  const now = new Date();
+  
+  // Format dates relative to today
+  const todayMorning = new Date(now);
+  todayMorning.setHours(8, 25, 0, 0);
+
+  const todayLunch = new Date(now);
+  todayLunch.setHours(13, 10, 0, 0);
+
+  const yesterdayMorning = new Date(now);
+  yesterdayMorning.setDate(yesterdayMorning.getDate() - 1);
+  yesterdayMorning.setHours(8, 45, 0, 0);
+
+  const yesterdayLunch = new Date(now);
+  yesterdayLunch.setDate(yesterdayLunch.getDate() - 1);
+  yesterdayLunch.setHours(12, 30, 0, 0);
+
+  const yesterdayDinner = new Date(now);
+  yesterdayDinner.setDate(yesterdayDinner.getDate() - 1);
+  yesterdayDinner.setHours(19, 15, 0, 0);
+
+  const day2Dinner = new Date(now);
+  day2Dinner.setDate(day2Dinner.getDate() - 2);
+  day2Dinner.setHours(19, 45, 0, 0);
+
+  const day3Lunch = new Date(now);
+  day3Lunch.setDate(day3Lunch.getDate() - 3);
+  day3Lunch.setHours(13, 0, 0, 0);
+
+  return [
+    {
+      id: 'meal-today-breakfast',
+      timestamp: todayMorning.toISOString(),
+      mealName: 'Sourdough Avocado & Poached Eggs',
+      mealType: 'breakfast',
+      servingWeight: '280g',
+      healthScore: 89,
+      confidenceLevel: 'Very High',
+      confidenceRationale: 'Clear image with distinct yolk viscosity, toasted sourdough crust and diced avocado layer visible.',
+      glycemicIndex: {
+        rating: 'Low',
+        score: 34,
+        explanation: 'High fiber sourdough combined with healthy fats slows down glucose absorption effectively.',
+      },
+      macros: {
+        calories: 430,
+        protein: 19,
+        carbs: 32,
+        fat: 26,
+        fiber: 8,
+        sugar: 2,
+        saturatedFat: 5,
+        netCarbs: 24,
+      },
+      micros: {
+        sodiumMg: 420,
+        potassiumMg: 580,
+        calciumMg: 65,
+        ironMg: 2.8,
+        vitaminCMg: 12,
+        vitaminDIU: 82,
+        cholesterolMg: 372,
+      },
+      ingredients: [
+        { name: 'Artisan Sourdough Slice', portion: '2 slices (80g)', calories: 190, proteinG: 6, carbsG: 34, fatG: 1, category: 'Carb' },
+        { name: 'Poached Eggs', portion: '2 large eggs', calories: 144, proteinG: 12, carbsG: 1, fatG: 10, category: 'Protein' },
+        { name: 'Hass Avocado', portion: '1/2 medium (75g)', calories: 120, proteinG: 1.5, carbsG: 6, fatG: 11, category: 'Healthy Fat' },
+        { name: 'Extra Virgin Olive Oil drizzle', portion: '1 tsp (5ml)', calories: 40, proteinG: 0, carbsG: 0, fatG: 4.5, category: 'Healthy Fat' },
+      ],
+      dietaryTags: ['High Fiber', 'Healthy Fats', 'Vegetarian', 'Whole Foods'],
+      allergens: ['Eggs', 'Gluten'],
+      healthPros: [
+        'Excellent monounsaturated fat profile from fresh avocado supporting heart health.',
+        'High bioavailable choline and lutein from egg yolks supporting cognitive function.',
+        'Satiety index is high, keeping energy steady until lunch.',
+      ],
+      healthWatchouts: [
+        'Cholesterol is elevated due to 2 whole eggs (healthy for most individuals, check if on strict low-cholesterol protocols).',
+      ],
+      dietitianAdvice: 'Pair with a squeeze of fresh lemon to boost non-heme iron absorption from sourdough and greens.',
+      imageUrl: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80',
+      userContextPrompt: 'Two poached pasture-raised eggs on toasted artisanal sourdough with sliced Hass avocado, chili flakes, and microgreens',
+      aiModelUsed: 'gemini-3.1-pro-preview',
+    },
+    {
+      id: 'meal-today-lunch',
+      timestamp: todayLunch.toISOString(),
+      mealName: 'Grilled Salmon & Quinoa Power Bowl',
+      mealType: 'lunch',
+      servingWeight: '420g',
+      healthScore: 94,
+      confidenceLevel: 'Very High',
+      confidenceRationale: 'Flaked grilled salmon fillet, distinct quinoa grains, steamed broccoli florets and cherry tomatoes identified with precision.',
+      glycemicIndex: {
+        rating: 'Low',
+        score: 28,
+        explanation: 'Complex carbohydrates in quinoa paired with high protein and omega-3 fats promote exceptional glycemic stability.',
+      },
+      macros: {
+        calories: 565,
+        protein: 42,
+        carbs: 46,
+        fat: 22,
+        fiber: 9,
+        sugar: 4,
+        saturatedFat: 3.5,
+        netCarbs: 37,
+      },
+      micros: {
+        sodiumMg: 490,
+        potassiumMg: 890,
+        calciumMg: 95,
+        ironMg: 3.9,
+        vitaminCMg: 65,
+        vitaminDIU: 540,
+        cholesterolMg: 75,
+      },
+      ingredients: [
+        { name: 'Grilled Atlantic Salmon', portion: '160g cooked', calories: 280, proteinG: 34, carbsG: 0, fatG: 15, category: 'Protein' },
+        { name: 'Cooked Tricolor Quinoa', portion: '1 cup (185g)', calories: 222, proteinG: 8, carbsG: 39, fatG: 3.5, category: 'Complex Carb' },
+        { name: 'Steamed Broccoli & Tomatoes', portion: '120g mixed', calories: 45, proteinG: 3, carbsG: 8, fatG: 0.5, category: 'Vegetable' },
+        { name: 'Olive Oil & Lemon Dressing', portion: '1 tbsp', calories: 70, proteinG: 0, carbsG: 1, fatG: 7.5, category: 'Healthy Fat' },
+      ],
+      dietaryTags: ['High Protein', 'Rich in Omega-3', 'Gluten-Free', 'Anti-Inflammatory'],
+      allergens: ['Fish'],
+      healthPros: [
+        'Contains over 1,800mg of EPA & DHA Omega-3 fatty acids for anti-inflammatory recovery.',
+        'Complete plant amino acid profile from quinoa complements lean marine protein.',
+        'Provides over 70% of daily recommended Vitamin C from steamed broccoli and fresh tomatoes.',
+      ],
+      healthWatchouts: ['Naturally low in dairy calcium; ensure adequate daily calcium from other sources.'],
+      dietitianAdvice: 'A gold-standard midday recovery meal. Ideal 2-3 hours prior to workout or post-exercise replenishment.',
+      imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
+      userContextPrompt: 'Wild caught salmon grilled with olive oil, tricolor quinoa, steamed broccoli florets and cherry tomatoes',
+      aiModelUsed: 'gemini-3.1-pro-preview',
+    },
+    {
+      id: 'meal-yesterday-breakfast',
+      timestamp: yesterdayMorning.toISOString(),
+      mealName: 'Greek Yogurt & Wild Berry Parfait',
+      mealType: 'breakfast',
+      servingWeight: '260g',
+      healthScore: 91,
+      confidenceLevel: 'High',
+      confidenceRationale: 'Identified thick strained yogurt base, layered blueberries, raspberries and seed cluster granola.',
+      glycemicIndex: {
+        rating: 'Low',
+        score: 30,
+        explanation: 'Casein and whey protein buffer natural fructose from berries.',
+      },
+      macros: {
+        calories: 340,
+        protein: 26,
+        carbs: 38,
+        fat: 9,
+        fiber: 7,
+        sugar: 18,
+        saturatedFat: 4,
+        netCarbs: 31,
+      },
+      micros: {
+        sodiumMg: 110,
+        potassiumMg: 450,
+        calciumMg: 280,
+        ironMg: 1.4,
+        vitaminCMg: 28,
+        vitaminDIU: 20,
+        cholesterolMg: 18,
+      },
+      ingredients: [
+        { name: '0% Plain Greek Yogurt', portion: '200g', calories: 140, proteinG: 22, carbsG: 8, fatG: 1, category: 'Dairy' },
+        { name: 'Organic Granola', portion: '35g', calories: 140, proteinG: 3, carbsG: 22, fatG: 5, category: 'Carb' },
+        { name: 'Mixed Berries & Chia', portion: '80g', calories: 60, proteinG: 1, carbsG: 11, fatG: 2, category: 'Fruit' },
+      ],
+      dietaryTags: ['High Protein', 'Probiotic', 'Vegetarian', 'High Calcium'],
+      allergens: ['Dairy'],
+      healthPros: ['Probiotics promote healthy gut microbiome.', 'Supplies 28% of daily Calcium requirements.'],
+      healthWatchouts: ['Be mindful of added sugars in commercial granola blends.'],
+      dietitianAdvice: 'Look for granola with under 5g of added sugar per serving or substitute with raw pumpkin seeds.',
+      imageUrl: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80',
+      userContextPrompt: 'Greek yogurt with fresh berries and granola',
+      aiModelUsed: 'gemini-3.1-pro-preview',
+    },
+    {
+      id: 'meal-yesterday-lunch',
+      timestamp: yesterdayLunch.toISOString(),
+      mealName: 'Mediterranean Chicken Herb Bowl',
+      mealType: 'lunch',
+      servingWeight: '390g',
+      healthScore: 88,
+      confidenceLevel: 'Very High',
+      confidenceRationale: 'Segmented grilled chicken strips, cucumber rounds, kalamata olives and crumbled feta.',
+      glycemicIndex: {
+        rating: 'Low',
+        score: 25,
+        explanation: 'Extremely minimal simple sugars; primarily protein, fiber, and unsaturated fats.',
+      },
+      macros: {
+        calories: 510,
+        protein: 44,
+        carbs: 22,
+        fat: 28,
+        fiber: 6,
+        sugar: 5,
+        saturatedFat: 7,
+        netCarbs: 16,
+      },
+      micros: {
+        sodiumMg: 780,
+        potassiumMg: 720,
+        calciumMg: 180,
+        ironMg: 2.6,
+        vitaminCMg: 34,
+        vitaminDIU: 10,
+        cholesterolMg: 95,
+      },
+      ingredients: [
+        { name: 'Herb Grilled Chicken Breast', portion: '180g', calories: 270, proteinG: 38, carbsG: 0, fatG: 6, category: 'Protein' },
+        { name: 'Feta Cheese Crumbles', portion: '35g', calories: 95, proteinG: 5, carbsG: 1, fatG: 8, category: 'Dairy' },
+        { name: 'Kalamata Olives & EVOO', portion: '30g', calories: 110, proteinG: 0.5, carbsG: 2, fatG: 11, category: 'Healthy Fat' },
+        { name: 'Greens, Cucumber & Red Onion', portion: '120g', calories: 35, proteinG: 1.5, carbsG: 7, fatG: 0.5, category: 'Vegetable' },
+      ],
+      dietaryTags: ['High Protein', 'Keto Friendly', 'Low Carb', 'Gluten-Free'],
+      allergens: ['Dairy'],
+      healthPros: ['Lean poultry delivers complete branch-chain amino acids (BCAAs).', 'Polyphenols from olives protect vascular walls.'],
+      healthWatchouts: ['Higher sodium content due to brined feta and kalamata olives.'],
+      dietitianAdvice: 'Drink extra water with this meal to balance electrolyte equilibrium.',
+      imageUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80',
+      userContextPrompt: 'Mediterranean chicken salad with olives, feta and olive oil',
+      aiModelUsed: 'gemini-3.1-pro-preview',
+    },
+    {
+      id: 'meal-yesterday-dinner',
+      timestamp: yesterdayDinner.toISOString(),
+      mealName: 'Seared Grass-Fed Ribeye & Asparagus',
+      mealType: 'dinner',
+      servingWeight: '380g',
+      healthScore: 82,
+      confidenceLevel: 'High',
+      confidenceRationale: 'Char marks on medium-rare steak slice, roasted asparagus stalks with visible butter emulsification.',
+      glycemicIndex: {
+        rating: 'Low',
+        score: 12,
+        explanation: 'Virtually zero glycemic impact due to absence of starchy carbohydrates.',
+      },
+      macros: {
+        calories: 690,
+        protein: 52,
+        carbs: 8,
+        fat: 50,
+        fiber: 4,
+        sugar: 2,
+        saturatedFat: 19,
+        netCarbs: 4,
+      },
+      micros: {
+        sodiumMg: 520,
+        potassiumMg: 840,
+        calciumMg: 45,
+        ironMg: 5.6,
+        vitaminCMg: 22,
+        vitaminDIU: 18,
+        cholesterolMg: 145,
+      },
+      ingredients: [
+        { name: 'Grass-Fed Ribeye Steak', portion: '220g raw weight', calories: 540, proteinG: 48, carbsG: 0, fatG: 38, category: 'Protein' },
+        { name: 'Roasted Asparagus with Butter', portion: '150g', calories: 120, proteinG: 4, carbsG: 8, fatG: 9, category: 'Vegetable' },
+        { name: 'Garlic Herb Compound Butter', portion: '1 pat (10g)', calories: 72, proteinG: 0, carbsG: 0, fatG: 8, category: 'Dairy' },
+      ],
+      dietaryTags: ['High Protein', 'Keto Friendly', 'Carnivore Friendly', 'High Iron'],
+      allergens: ['Dairy'],
+      healthPros: ['Exceptional source of bioavailable heme iron, Zinc, and Vitamin B12.'],
+      healthWatchouts: ['High in saturated fat; recommended in moderate frequency.'],
+      dietitianAdvice: 'A powerhouse dinner for iron replenishment and muscle protein synthesis.',
+      imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+      userContextPrompt: 'Ribeye steak medium rare with roasted asparagus',
+      aiModelUsed: 'gemini-3.1-pro-preview',
+    },
+    {
+      id: 'meal-day2-dinner',
+      timestamp: day2Dinner.toISOString(),
+      mealName: 'Tofu Vegetable Stir Fry with Jasmine Rice',
+      mealType: 'dinner',
+      servingWeight: '410g',
+      healthScore: 87,
+      confidenceLevel: 'High',
+      confidenceRationale: 'Golden crisped tofu cubes, bell peppers, snap peas, and steamed jasmine rice base.',
+      glycemicIndex: {
+        rating: 'Medium',
+        score: 55,
+        explanation: 'White jasmine rice has a moderate glycemic response, moderated by tofu fiber and sesame fat.',
+      },
+      macros: {
+        calories: 520,
+        protein: 24,
+        carbs: 68,
+        fat: 16,
+        fiber: 7,
+        sugar: 6,
+        saturatedFat: 2.5,
+        netCarbs: 61,
+      },
+      micros: {
+        sodiumMg: 620,
+        potassiumMg: 610,
+        calciumMg: 310,
+        ironMg: 4.2,
+        vitaminCMg: 78,
+        vitaminDIU: 0,
+        cholesterolMg: 0,
+      },
+      ingredients: [
+        { name: 'Crispy Extra Firm Tofu', portion: '160g', calories: 210, proteinG: 19, carbsG: 5, fatG: 12, category: 'Protein' },
+        { name: 'Jasmine Rice', portion: '1 cup cooked (150g)', calories: 200, proteinG: 4, carbsG: 45, fatG: 0.5, category: 'Carb' },
+        { name: 'Bell Peppers, Snap Peas, Carrots', portion: '150g', calories: 65, proteinG: 2, carbsG: 14, fatG: 0.5, category: 'Vegetable' },
+        { name: 'Sesame Ginger Glaze', portion: '1.5 tbsp', calories: 45, proteinG: 0.5, carbsG: 7, fatG: 2, category: 'Sauce/Condiment' },
+      ],
+      dietaryTags: ['Vegan', 'Plant-Based', 'Dairy-Free', 'High Calcium'],
+      allergens: ['Soy', 'Sesame'],
+      healthPros: ['100% plant-based cholesterol-free protein with high calcium from firm tofu.', 'Vibrant antioxidant profile from colorful peppers.'],
+      healthWatchouts: ['Moderate carbohydrate load from jasmine rice.'],
+      dietitianAdvice: 'Consider brown rice or cauli-rice blend next time if targeting lower net carbs.',
+      imageUrl: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80',
+      userContextPrompt: 'Crispy tofu stir fry with vegetables and rice',
+      aiModelUsed: 'gemini-3.1-pro-preview',
+    },
+    {
+      id: 'meal-day3-lunch',
+      timestamp: day3Lunch.toISOString(),
+      mealName: 'Turkey & Avocado Whole Grain Wrap',
+      mealType: 'lunch',
+      servingWeight: '320g',
+      healthScore: 86,
+      confidenceLevel: 'High',
+      confidenceRationale: 'Sliced roast turkey breast, spinach leaves, avocado spread rolled in whole wheat tortilla.',
+      glycemicIndex: {
+        rating: 'Low',
+        score: 38,
+        explanation: 'Whole grain fiber and lean turkey protein mitigate glucose spikes.',
+      },
+      macros: {
+        calories: 460,
+        protein: 36,
+        carbs: 42,
+        fat: 16,
+        fiber: 9,
+        sugar: 3,
+        saturatedFat: 3,
+        netCarbs: 33,
+      },
+      micros: {
+        sodiumMg: 710,
+        potassiumMg: 640,
+        calciumMg: 110,
+        ironMg: 2.7,
+        vitaminCMg: 15,
+        vitaminDIU: 12,
+        cholesterolMg: 62,
+      },
+      ingredients: [
+        { name: 'Sliced Roast Turkey Breast', portion: '140g', calories: 160, proteinG: 30, carbsG: 1, fatG: 2, category: 'Protein' },
+        { name: 'Whole Wheat Flatbread Wrap', portion: '1 large (70g)', calories: 180, proteinG: 6, carbsG: 34, fatG: 3.5, category: 'Carb' },
+        { name: 'Sliced Avocado & Dijon', portion: '50g', calories: 85, proteinG: 1, carbsG: 4, fatG: 7.5, category: 'Healthy Fat' },
+        { name: 'Baby Spinach & Tomato', portion: '60g', calories: 20, proteinG: 1, carbsG: 3, fatG: 0, category: 'Vegetable' },
+      ],
+      dietaryTags: ['High Protein', 'High Fiber', 'Lean Meat'],
+      allergens: ['Gluten'],
+      healthPros: ['Very high protein-to-calorie density; ideal for active recovery.'],
+      healthWatchouts: ['Deli meats can contain nitrates or elevated sodium; choose fresh-roasted where possible.'],
+      dietitianAdvice: 'Pair with raw carrot sticks or crisp bell pepper strips for extra crunch and hydration.',
+      imageUrl: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80',
+      userContextPrompt: 'Roasted turkey wrap with avocado and spinach',
+      aiModelUsed: 'gemini-3.1-pro-preview',
+    }
+  ];
+}
