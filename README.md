@@ -218,9 +218,8 @@ The easiest way to deploy NutriVision is using [Vercel](https://vercel.com/):
 ## 👨‍💻 Author
 
 **Darius Cristinescu**
-- **GitHub**: [@dariuss09dariuss09](https://github.com/dariuss09)
+- **GitHub**: [@dariuss09](https://github.com/dariuss09)
 - **Project Link**: [NutriVision on GitHub](https://github.com/dariuss09/NutiVision)
-- **Live Demo**: [nutrivision-hazel.vercel.app](https://nutrivision-hazel.vercel.app)
 
 ---
 
